@@ -45,7 +45,7 @@ public class CursoDAO {
      */
     public Integer inserir(Curso curso) throws ClassNotFoundException, SQLException {
         PreparedStatement stmt = banco.prepareStatement("INSERT INTO "
-                + "`universo_supremo`.`curso`(`curso`) "
+                + "`curso`(`curso`) "
                 + "VALUES"
                 + " (?)");
         stmt.setString(1, curso.getCurso());

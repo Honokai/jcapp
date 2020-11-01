@@ -49,7 +49,7 @@ public class AlunoDAO {
     public Integer inserir(Aluno aluno) throws ClassNotFoundException, SQLException {
         try{
             PreparedStatement stmt = banco.prepareStatement("INSERT INTO "
-                + "`universo_supremo`.`aluno`(`nome`,`curso_id`,`email`,`cpf`, `nascimento`) "
+                + "`aluno`(`nome`,`curso_id`,`email`,`cpf`, `nascimento`) "
                 + "VALUES"
                 + " (?,?,?,?,?)");
             java.util.Date data =  aluno.getNascimento();

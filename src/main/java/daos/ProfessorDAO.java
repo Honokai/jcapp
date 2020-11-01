@@ -38,7 +38,7 @@ public class ProfessorDAO {
     public Integer inserir(Professor professor) throws ClassNotFoundException, SQLException {
         try{
             PreparedStatement stmt = banco.prepareStatement("INSERT INTO "
-                + "`universo_supremo`.`professor`(`professor`,`email`) "
+                + "`professor`(`professor`,`email`) "
                 + "VALUES"
                 + " (?,?)");
             stmt.setString(1, professor.getProfessor());

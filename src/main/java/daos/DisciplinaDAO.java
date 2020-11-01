@@ -46,7 +46,7 @@ public class DisciplinaDAO {
     public Integer inserir(Disciplina disciplina) throws ClassNotFoundException, SQLException {
         try{
             PreparedStatement stmt = banco.prepareStatement("INSERT INTO "
-                + "`universo_supremo`.`disciplina`(`disciplina`,`av1`,`av2`,`av3`,`aps1`,`aps2`,`aluno_id`,`professor_id`) "
+                + "`disciplina`(`disciplina`,`av1`,`av2`,`av3`,`aps1`,`aps2`,`aluno_id`,`professor_id`) "
                 + "VALUES"
                 + " (?,?,?,?,?,?,?,?)");
             stmt.setString(1, disciplina.getDisciplina());
