@@ -1,0 +1,13 @@
+daos\AlunoDAO.class
+entidades\Materia.class
+daos\DisciplinaDAO.class
+daos\ProfessorDAO.class
+com\consoleapp\BancoConexao.class
+daos\MateriaDAO.class
+entidades\Professor.class
+entidades\Aluno.class
+estrutura\CriadorEstrutura.class
+com\consoleapp\Principal.class
+entidades\Curso.class
+entidades\Disciplina.class
+daos\CursoDAO.class
