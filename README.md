@@ -39,18 +39,6 @@ Execute este sql para criação do banco.
 ```sql
 CREATE DATABASE IF NOT EXISTS universidade;
 ```
-este para criação dos usuários DBA e DEV:
-```sql
-/*criar usuario administrador do banco*/
-CREATE USER 'dba'@localhost IDENTIFIED BY 'dba';
-GRANT ALL ON universidade.* to 'dba'@localhost;
-FLUSH PRIVILEGES;
-
-/*criar usuario comum*/
-CREATE USER 'dev'@localhost IDENTIFIED BY 'dev';
-GRANT SELECT, INSERT, UPDATE, DELETE on universidade.* to 'dev'@localhost;
-flush privileges;
-```
 
 ## Integrantes 
 Nome: **Emerson F. Fernandes**  

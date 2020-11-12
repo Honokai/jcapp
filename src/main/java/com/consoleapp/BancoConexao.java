@@ -21,8 +21,8 @@ public class BancoConexao {
         this.servidor = "127.0.0.1";
         this.porta = "3306";
         this.banco = "universidade";
-        this.login = "coloque o usuario aqui";
-        this.senha = "coloque a senha aqui";
+        this.login = "root";
+        this.senha = "865358";
     }
     
     public Connection conexao() throws ClassNotFoundException, SQLException {

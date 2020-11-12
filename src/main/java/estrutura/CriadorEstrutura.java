@@ -18,16 +18,47 @@ public class CriadorEstrutura {
     
     private BancoConexao bancoConexao = new BancoConexao();
     
-    public String criarBanco() throws ClassNotFoundException, SQLException {
+    public String criarUserDev() throws ClassNotFoundException, SQLException {
         try {
             System.out.println("Conectando ao banco...");
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
-            System.out.println("Criando banco...");
-            String query = "CREATE DATABASE IF NOT EXISTS universo_supremo";
+            System.out.println("Criando usuário...");
+            String query = "CREATE USER 'dev'@localhost IDENTIFIED BY 'dev'";
             Statement criar = conexao.createStatement();
             criar.executeUpdate(query);
-            return "Banco UNIVERSIDADE criado com sucesso!";
+            System.out.println("Usuário dev criado com sucesso. A senha é dev");
+            query = "GRANT SELECT, INSERT, UPDATE, DELETE on universidade.* to 'dev'@localhost";
+            criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            System.out.println("Ações permitidas: SELECT, INSERT, UPDATE, DELETE para o usuário DEV.");
+            query = "FLUSH PRIVILEGES";
+            criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            return "As permissões foram atualizadas! Caso queira utilizar o mesmo, altere em BancoConexao.";
+        } catch(SQLException e) {
+            return e.toString();
+        }
+        
+    }
+    
+    public String criarUserDba() throws ClassNotFoundException, SQLException {
+        try {
+            System.out.println("Conectando ao banco...");
+            Connection conexao = bancoConexao.conexao();
+            System.out.println("Conexão efetuada com sucesso.");
+            System.out.println("Criando usuário...");
+            String query = "CREATE USER 'dba'@localhost IDENTIFIED BY 'dba'";
+            Statement criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            System.out.println("Usuário dba criado com sucesso. A senha é dba");
+            query = "GRANT ALL ON universidade.* to 'dba'@localhost";
+            criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            query = "FLUSH PRIVILEGES";
+            criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            return "As permissões foram atualizadas! Caso queira utilizar o mesmo, altere em BancoConexao.";
         } catch(SQLException e) {
             return e.toString();
         }
@@ -40,7 +71,7 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Criando tabela...");
-            String query = "CREATE TABLE `universo_supremo`.`curso` (`id` int(11) NOT NULL AUTO_INCREMENT,"
+            String query = "CREATE TABLE `curso` (`id` int(11) NOT NULL AUTO_INCREMENT,"
                     + " `curso` varchar(120) COLLATE utf8mb4_bin NOT NULL,"
                     + " PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0"
                     + " DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
@@ -58,7 +89,7 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Criando tabela...");
-            String query = "CREATE TABLE IF NOT EXISTS `universo_supremo`.`aluno` (`id` int(11) NOT NULL AUTO_INCREMENT,"
+            String query = "CREATE TABLE IF NOT EXISTS `aluno` (`id` int(11) NOT NULL AUTO_INCREMENT,"
                     + " `nome` varchar(120) COLLATE utf8mb4_bin NOT NULL, `curso_id` int(80) NOT NULL,"
                     +"`email` varchar(180) COLLATE utf8mb4_bin NOT NULL,"
                     +"`cpf` varchar(50) COLLATE utf8mb4_bin NOT NULL,"
@@ -81,7 +112,7 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Criando tabela...");
-            String query = "CREATE TABLE IF NOT EXISTS `universo_supremo`.`professor` ("
+            String query = "CREATE TABLE IF NOT EXISTS `professor` ("
                     +"`id` int(11) NOT NULL AUTO_INCREMENT,"
                     +"`professor` varchar(120) COLLATE utf8mb4_bin NOT NULL,"
                     +"`email` varchar(180) COLLATE utf8mb4_bin NOT NULL,"
@@ -101,7 +132,7 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Criando tabela...");
-            String query = "CREATE TABLE `universo_supremo`.`disciplina` ("
+            String query = "CREATE TABLE `disciplina` ("
                     + "`id` int(11) NOT NULL AUTO_INCREMENT,"
                     + "`disciplina` varchar(120) COLLATE utf8mb4_bin NOT NULL,"
                     + "`av1` double DEFAULT 0,"
@@ -131,7 +162,7 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Criando tabela...");
-            String query = "CREATE TABLE IF NOT EXISTS `universo_supremo`.`materias` ("
+            String query = "CREATE TABLE IF NOT EXISTS `materias` ("
             +"`id` int(11) NOT NULL AUTO_INCREMENT,"
             + "`materia` varchar(150) COLLATE utf8mb4_bin DEFAULT NULL,"
             + " PRIMARY KEY (`id`),"
@@ -151,14 +182,52 @@ public class CriadorEstrutura {
             Connection conexao = bancoConexao.conexao();
             System.out.println("Conexão efetuada com sucesso.");
             System.out.println("Destruindo banco...");
-            String query = "DROP DATABASE IF EXISTS universo_supremo";
+            String query = "DROP DATABASE IF EXISTS universidade";
             Statement criar = conexao.createStatement();
             criar.executeUpdate(query);
-            return "Banco universo_supremo destruido com sucesso!";
+            return "Banco universidade destruido com sucesso!";
         } catch(SQLException e) {
             return e.toString();
         }
-        
     }
     
+    public void criarTriggers() throws ClassNotFoundException, ClassNotFoundException{
+        try {
+            System.out.println("Conectando ao banco...");
+            Connection conexao = bancoConexao.conexao();
+            System.out.println("Conexão efetuada com sucesso.");
+            System.out.println("Criando triggers");
+            String query = "create trigger valor_maximo_insert\n" +
+            "    before insert\n" +
+            "    on universidade.disciplina\n" +
+            "    for each row\n" +
+            "    BEGIN\n" +
+            "        if NEW.av1 > 7 or NEW.av2 > 8 or NEW.av3 > 10 or NEW.aps1 > 3 or NEW.aps2 > 2 then\n" +
+            "                signal sqlstate '41200' set message_text ='Erro: Valores informados acima do permitido.'\n;" +
+            "        end if;\n" +
+            "        if NEW.av1 < 0 or NEW.av2 < 0 or NEW.av3 < 0 or NEW.aps1 < 0 or NEW.aps2 < 0 then\n" +
+            "                signal sqlstate '41200' set message_text ='Erro: Valores informados abaixo do permitido.';\n" +
+            "        end if;\n" +
+            "    end";
+            Statement criar = conexao.createStatement();
+            criar.executeUpdate(query);
+            query = "create trigger valor_maximo_update\n" +
+            "    before update\n" +
+            "    on universidade.disciplina\n" +
+            "    for each row\n" +
+            "BEGIN\n" +
+            "    if NEW.av1 > 7 or NEW.av2 > 8 or NEW.av3 > 10 or NEW.aps1 > 3 or NEW.aps2 > 2 then\n" +
+            "            signal sqlstate '41200' set message_text ='Erro: Valores informados acima do permitido.';\n" +
+            "    end if;\n" +
+            "    if NEW.av1 < 0 or NEW.av2 < 0 or NEW.av3 < 0 or NEW.aps1 < 0 or NEW.aps2 < 0 then\n" +
+            "            signal sqlstate '41200' set message_text ='Erro: Valores informados abaixo do permitido.';\n" +
+            "    end if;\n" +
+            "end";
+            criar = conexao.createStatement();
+            criar.executeUpdate(query);
+           System.out.print("Triggers criados.\n\n");
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
 }

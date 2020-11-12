@@ -61,7 +61,9 @@ public class DisciplinaDAO {
             return stmt.executeUpdate();
         } catch(SQLException e) {
             if(e.getMessage().contains("Cannot add or update a child row: a foreign key constraint fails")){
-             System.out.println("Parece que você tentou inserir a disciplina com um ID de aluno ou professor inexistente, informe um ID válido.\n");   
+                System.out.println("Parece que você tentou inserir a disciplina com um ID de aluno ou professor inexistente, informe um ID válido.\n");   
+            } else {
+                System.out.println(e.getMessage());
             }
             return 0;
         }

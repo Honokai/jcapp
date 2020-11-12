@@ -21,6 +21,8 @@ import java.util.Scanner;
  */
 public class Principal {
     
+    private CriadorEstrutura criador = new CriadorEstrutura();
+    
     public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
         System.out.println("Bem-vindo");
         String option = "";
@@ -67,26 +69,37 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         while(option.equals("0") == false){
             System.out.println("---------------------------Menu de criação--------------------------------");
-            System.out.println("1 - Criar tabela Curso");
-            System.out.println("2 - Criar tabela Aluno");
-            System.out.println("3 - Criar tabela Professor");
-            System.out.println("4 - Criar tabela Disciplina");
+            System.out.println("1 - Criar usuário DBA");
+            System.out.println("2 - Criar usuário DEV");
+            System.out.println("3 - Criar tabela Curso");
+            System.out.println("4 - Criar tabela Aluno");
+            System.out.println("5 - Criar tabela Professor");
+            System.out.println("6 - Criar tabela Disciplina");
+            System.out.println("7 - Criar triggers");
             System.out.println("0 - Voltar");
             option = entrada.nextLine();
             switch(option) {
                 case "1":
-                     System.out.println(new CriadorEstrutura().criarTabelaCurso());
+                     System.out.println(criador.criarUserDba());
                     break;
                 case "2":
-                   System.out.println(new CriadorEstrutura().criarTabelaAluno());
+                    System.out.println(criador.criarUserDev());
                     break;
                 case "3":
-                    System.out.println(new CriadorEstrutura().criarTabelaProfessor());
+                     System.out.println(criador.criarTabelaCurso());
                     break;
                 case "4":
-                    System.out.println(new CriadorEstrutura().criarTabelaDisciplina());
+                   System.out.println(criador.criarTabelaAluno());
                     break;
-                 case "0":
+                case "5":
+                    System.out.println(criador.criarTabelaProfessor());
+                    break;
+                case "6":
+                    System.out.println(criador.criarTabelaDisciplina());
+                    break;
+                case "7":
+                    criador.criarTriggers();
+                case "0":
                     System.out.println("Voltando para o menu anterior.");
                     break;
                 default:
