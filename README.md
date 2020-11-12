@@ -19,8 +19,8 @@ O arquivo `Principal.java` é de onde você deve partir a execução, pois o mes
         this.servidor = "127.0.0.1";
         this.porta = "3306";
         this.banco = "universidade"; //este é o nome do banco
-        this.login = "coloque o usuario aqui";
-        this.senha = "coloque a senha aqui";
+        this.login = "coloque o usuario aqui"; 
+        this.senha = "coloque a senha aqui"; 
     }
     
 ```
@@ -35,7 +35,7 @@ Contém uma única classe que contém métodos para criação das tabelas e dest
 
 
 ## SQL
-Execute este sql para criação do banco.
+Execute este sql para criação do banco, o restante da estrutura como tabelas e triggers a aplicação no console fará, basta que informe a opção.
 ```sql
 CREATE DATABASE IF NOT EXISTS universidade;
 ```
